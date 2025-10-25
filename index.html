@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FlowCode — Convert Code ↔ Flowchart</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div style="display:flex;align-items:center;gap:18px">
+      <div class="logo">
+        <div class="mark" aria-hidden>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 12h11" stroke="#ffffff" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M13 5l7 7-7 7" stroke="#ffffff" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </div>
+        FlowCode
+      </div>
+      <nav>
+        <a href="#" id="nav-home">Home</a>
+        <a href="#" id="nav-code2flow">Code → Flowchart</a>
+        <a href="#" id="nav-flow2code">Flowchart → Code</a>
+      </nav>
+    </div>
+    <div class="auth">
+      <button class="btn" id="btn-signin-top">Sign In</button>
+      <button class="btn primary" id="btn-signup-top">Sign Up</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- HOME -->
+    <section class="hero" id="home-panel">
+      <div class="left">
+        <h1>FlowCode — Make logic visible. Build with confidence.</h1>
+        <p class="lead">
+          FlowCode helps developers, teachers, and teams turn ideas into working
+          solutions. Paste code to see an interactive flowchart, or draw your
+          flow and generate code in multiple languages. Learn faster, debug
+          easier, and share clearer designs.
+        </p>
+        <div class="cta">
+          <button class="btn primary" id="btn-to-code2flow">
+            Start: Code → Flowchart
+          </button>
+          <button class="btn" id="btn-to-flow2code">
+            Start: Flowchart → Code
+          </button>
+        </div>
+        <div class="muted-note">
+          Trusted by students and teams for teaching, prototyping, and
+          documentation.
+        </div>
+      </div>
+      <div style="width:360px">
+        <svg viewBox="0 0 360 220" width="360" height="220"
+          xmlns="http://www.w3.org/2000/svg">
+          <rect x="12" y="16" width="150" height="120" rx="10" fill="#0f172a"
+            opacity="0.95" />
+          <text x="26" y="46" fill="#fff" font-family="monospace"
+            font-size="12">if (x &gt; 0) {</text>
+          <text x="26" y="64" fill="#fff" font-family="monospace"
+            font-size="12">  console.log('pos')</text>
+          <text x="26" y="82" fill="#fff" font-family="monospace"
+            font-size="12">} else {</text>
+          <text x="26" y="100" fill="#fff" font-family="monospace"
+            font-size="12">  console.log('neg')</text>
+          <text x="26" y="118" fill="#fff" font-family="monospace"
+            font-size="12">}</text>
+
+          <g transform="translate(190,20)">
+            <rect x="10" y="10" width="140" height="36" rx="8" fill="#ffffff"
+              stroke="#e2e8f0" />
+            <text x="26" y="36" font-size="13">
+              Start → Decision → End
+            </text>
+            <path d="M90 60 Q 120 90 150 60" stroke="#0ea5a8" stroke-width="4"
+              fill="none" stroke-linecap="round" />
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <!-- CODE -> FLOWCHART -->
+    <section id="code2flow" class="panel hidden">
+      <h2>Convert Code → Flowchart</h2>
+      <p class="lead">
+        Paste or write code. FlowCode will generate a clear, top-down flowchart
+        showing start, decisions, and processes. You can drag nodes afterwards
+        to tweak the layout.
+      </p>
+      <div class="toolbar">
+        <select id="lang-code2flow">
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="java">Java</option>
+        </select>
+        <button class="small-btn" id="btn-parse">Generate Flowchart</button>
+        <button class="small-btn" id="btn-clear-code">Clear</button>
+      </div>
+      <div class="workspace">
+        <div class="editor">
+          <textarea id="code-editor"
+            placeholder="Paste your code here..."></textarea>
+        </div>
+        <div class="canvas-area">
+          <svg id="flow-svg" class="flow-svg"></svg>
+        </div>
+      </div>
+      <div class="panel">
+        <strong>Notes:</strong> The parser recognizes common structures
+        (functions, if/else, loops, returns). Complex code may require manual
+        adjustment in the flow editor.
+      </div>
+    </section>
+
+    <!-- FLOWCHART -> CODE -->
+    <section id="flow2code" class="panel hidden">
+      <h2>Convert Flowchart → Code</h2>
+      <p class="lead">
+        Draw a flowchart, connect nodes, and generate readable code in your
+        chosen language. Label nodes with short instructions — these will become
+        code lines.
+      </p>
+      <div class="toolbar">
+        <select id="lang-flow2code">
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="java">Java</option>
+        </select>
+        <button class="small-btn" id="add-start">Add Start</button>
+        <button class="small-btn" id="add-process">Add Process</button>
+        <button class="small-btn" id="add-decision">Add Decision</button>
+        <button class="small-btn" id="btn-generate-code">Generate Code</button>
+        <button class="small-btn" id="btn-clear-canvas">Clear</button>
+      </div>
+      <div class="workspace">
+        <div class="canvas-area" id="draw-canvas">
+          <svg id="draw-svg" class="flow-svg"></svg>
+        </div>
+        <div style="width:340px">
+          <div class="panel" style="padding:12px">
+            Tips:
+            <ul style="margin:8px 0 0 18px;color:var(--muted)">
+              <li>Double-click a node to edit its text.</li>
+              <li>Click two nodes then press <strong>Connect Selected</strong>.</li>
+              <li>Label your Start node with "Start" for code generation.</li>
+            </ul>
+            <div style="margin-top:10px">
+              <button class="small-btn" id="connect-selected">
+                Connect Selected
+              </button>
+            </div>
+          </div>
+          <div class="output" id="code-output"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SIGN IN / SIGN UP -->
+    <section id="signin" class="panel hidden auth-page">
+      <div class="card">
+        <h3>Welcome back</h3>
+        <p class="muted-note">Sign in to your FlowCode workspace.</p>
+        <div class="field">
+          <label>Email</label><input type="email" id="signin-email" />
+        </div>
+        <div class="field">
+          <label>Password</label><input type="password" id="signin-pass" />
+        </div>
+        <div class="actions">
+          <button class="btn" id="signin-cancel">Cancel</button>
+          <button class="btn primary" id="signin-submit">Sign In</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="signup" class="panel hidden auth-page">
+      <div class="card">
+        <h3>Create an account</h3>
+        <p class="muted-note">
+          Join FlowCode — save and share your workspaces.
+        </p>
+        <div class="field">
+          <label>Email</label><input type="email" id="signup-email" />
+        </div>
+        <div class="field">
+          <label>Password</label><input type="password" id="signup-pass" />
+        </div>
+        <div class="field">
+          <label>Confirm Password</label><input type="password"
+            id="signup-pass2" />
+        </div>
+        <div class="actions">
+          <button class="btn" id="signup-cancel">Cancel</button>
+          <button class="btn primary" id="signup-submit">Sign Up</button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © 2025 FlowCode. <a href="#">Terms</a> · <a href="#">Privacy</a> ·
+      <a href="#">Contact</a>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
